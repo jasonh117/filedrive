@@ -12,7 +12,8 @@ const sequelize = new Sequelize(
 
 const db = {
   sequelize,
-  Sequelize
+  Sequelize,
+  User: sequelize.import('./user')
 };
 
 module.exports = db;
