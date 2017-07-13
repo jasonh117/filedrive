@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {"url": "/", "file": "routes/index"},
+    {"url": "/user", "file": "routes/users"}
+  ],
+  "postgres": {
+    "database": "file_hosting_dev",
+    "username": "file_hosting_dev",
+    "password": "file_hosting_dev",
+    "options": {
+      "dialect": "postgres",
+      "host": "localhost",
+      "pool": {
+        "max": 10,
+        "min": 0
+      }
+    }
+  }
+}
