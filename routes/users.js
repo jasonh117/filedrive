@@ -2,6 +2,7 @@ const express = require('express');
 const HTTPStatus = require('http-status');
 const models = require('../models');
 const { errorCodes } = require('../lib/error');
+const jwt = require('../lib/jwt');
 
 const router = express.Router();
 const UserModel = models.User;
@@ -19,7 +20,9 @@ router.post('/', (req, res) => {
 
   UserModel.create(req.body)
     .then((user) => {
-      res.status(HTTPStatus.CREATED).json(user);
+      const userObj = user.toJSON();
+      userObj.jwt = jwt.generateToken(userObj);
+      res.status(HTTPStatus.CREATED).json({ data: userObj });
     })
     .catch((error) => {
       if (error.name === 'SequelizeUniqueConstraintError') {
