@@ -1,4 +1,4 @@
-const tableName = 'users';
+const tableName = 'files';
 
 module.exports = {
   up: (queryInterface, Sequelize) =>
@@ -9,11 +9,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
+      name: {
         type: Sequelize.STRING
       },
-      password: {
-        type: Sequelize.STRING(72)
+      permission: {
+        type: Sequelize.STRING
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,
@@ -24,7 +33,7 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-      .then(() => queryInterface.addIndex(tableName, ['email'], { indicesType: 'UNIQUE' })),
+      .then(() => queryInterface.addIndex(tableName, ['name'])),
   down: queryInterface =>
     queryInterface.dropTable(tableName, { cascade: true, truncate: true })
 };

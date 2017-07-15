@@ -13,7 +13,10 @@ const sequelize = new Sequelize(
 const db = {
   sequelize,
   Sequelize,
-  User: sequelize.import('./user')
+  User: sequelize.import('./user'),
+  File: sequelize.import('./file')
 };
+
+db.File.associate(db);
 
 module.exports = db;
