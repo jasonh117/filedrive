@@ -36,4 +36,19 @@ router.post('/', jwt.authenticate, upload.any(), (req, res) => {
     });
 });
 
+router.get('/', jwt.authenticate, (req, res) => {
+  const userId = req.user.id;
+  const where = {
+    userId
+  };
+
+  FileModel.findAll({ where })
+    .then((returnFiles) => {
+      res.status(HTTPStatus.OK).json({ data: returnFiles });
+    })
+    .catch((error) => {
+      res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error });
+    });
+});
+
 module.exports = router;
