@@ -1,7 +1,8 @@
 {
   "routes": [
     {"url": "/", "file": "routes/index"},
-    {"url": "/user", "file": "routes/users"}
+    {"url": "/user", "file": "routes/users"},
+    {"url": "/file", "file": "routes/files"}
   ],
   "postgres": {
     "database": "file_hosting_dev",

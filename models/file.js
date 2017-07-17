@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     permission: {
       type: DataTypes.STRING
+    },
+    size: {
+      type: DataTypes.STRING
+    },
+    mimetype: {
+      type: DataTypes.STRING
     }
   });
 

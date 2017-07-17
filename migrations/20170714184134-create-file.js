@@ -15,6 +15,12 @@ module.exports = {
       permission: {
         type: Sequelize.STRING
       },
+      size: {
+        type: Sequelize.STRING
+      },
+      mimetype: {
+        type: Sequelize.STRING
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {
