@@ -2,7 +2,10 @@ const tableName = 'files';
 
 module.exports = (sequelize, DataTypes) => {
   const FileModel = sequelize.define(tableName, {
-    name: {
+    originalname: {
+      type: DataTypes.STRING
+    },
+    filename: {
       type: DataTypes.STRING
     },
     permission: {
@@ -12,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     mimetype: {
+      type: DataTypes.STRING
+    },
+    encoding: {
+      type: DataTypes.STRING
+    },
+    folder: {
       type: DataTypes.STRING
     }
   });

@@ -9,7 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      originalname: {
+        type: Sequelize.STRING
+      },
+      filename: {
         type: Sequelize.STRING
       },
       permission: {
@@ -19,6 +22,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       mimetype: {
+        type: Sequelize.STRING
+      },
+      encoding: {
+        type: Sequelize.STRING
+      },
+      folder: {
         type: Sequelize.STRING
       },
       userId: {
@@ -39,7 +48,13 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-      .then(() => queryInterface.addIndex(tableName, ['name'])),
+      .then(() => queryInterface.addIndex(tableName, ['userId', 'folder']))
+      .then(() => queryInterface.addIndex(tableName, ['userId', 'filename']))
+      .then(() => queryInterface.addIndex(
+        tableName,
+        ['originalname', 'userId', 'folder'],
+        { indicesType: 'UNIQUE' }
+      )),
   down: queryInterface =>
     queryInterface.dropTable(tableName, { cascade: true, truncate: true })
 };

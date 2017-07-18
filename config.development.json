@@ -20,5 +20,8 @@
   "jwt": {
     "secret": "hj2k43h534295h4738c9032t9320g590jg8425j4529h84529245hg4254hj92hj",
     "expiresIn": 7776000
+  },
+  "file": {
+    "location": "./files/"
   }
 }
