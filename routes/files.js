@@ -79,8 +79,35 @@ router.get('/:filename', (req, res) => {
 
   FileModel.findOne({ where })
     .then((file) => {
+      if (!file) {
+        res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.FILE_INVALID_NAME });
+      }
       res.status(HTTPStatus.OK)
         .download(path.resolve(fileConfig.location, file.filename), file.originalname);
+    })
+    .catch((error) => {
+      res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error });
+    });
+});
+
+router.delete('/:filename', (req, res) => {
+  const userId = req.user.id;
+  const filename = req.params.filename;
+  const where = {
+    userId,
+    filename
+  };
+
+  FileModel.findOne({ where })
+    .then((file) => {
+      if (!file) {
+        res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.FILE_INVALID_NAME });
+      }
+      fs.unlinkSync(path.resolve(fileConfig.location, file.filename));
+      return file.destroy();
+    })
+    .then(() => {
+      res.status(HTTPStatus.OK).end();
     })
     .catch((error) => {
       res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ error });
