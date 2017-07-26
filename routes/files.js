@@ -3,6 +3,7 @@ const HTTPStatus = require('http-status');
 const multer = require('multer');
 const nconf = require('nconf');
 const path = require('path');
+const fs = require('fs');
 const models = require('../models');
 const { errorCodes } = require('../lib/error');
 const jwt = require('../lib/jwt');
@@ -43,6 +44,7 @@ router.post('/', upload.any(), (req, res) => {
     })
     .catch((error) => {
       if (error.name === 'SequelizeUniqueConstraintError') {
+        req.files.map(file => fs.unlinkSync(file.path));
         res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.FILE_SAME_NAME });
         return;
       }
