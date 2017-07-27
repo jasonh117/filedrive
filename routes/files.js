@@ -72,6 +72,7 @@ router.get('/', (req, res) => {
 router.get('/:filename', (req, res) => {
   const userId = req.user.id;
   const filename = req.params.filename;
+  const view = req.query.view;
   const where = {
     userId,
     filename
@@ -81,6 +82,12 @@ router.get('/:filename', (req, res) => {
     .then((file) => {
       if (!file) {
         res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.FILE_INVALID_NAME });
+      }
+      if (view) {
+        return res.status(HTTPStatus.OK)
+          .sendFile(path.resolve(fileConfig.location, file.filename), {
+            headers: { 'Content-Type': file.mimetype }
+          });
       }
       res.status(HTTPStatus.OK)
         .download(path.resolve(fileConfig.location, file.filename), file.originalname);
