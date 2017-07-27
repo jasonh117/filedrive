@@ -103,7 +103,8 @@ router.delete('/:filename', (req, res) => {
       if (!file) {
         res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.FILE_INVALID_NAME });
       }
-      fs.unlinkSync(path.resolve(fileConfig.location, file.filename));
+      const filePath = path.resolve(fileConfig.location, file.filename);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
       return file.destroy();
     })
     .then(() => {
