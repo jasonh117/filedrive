@@ -9,9 +9,14 @@ const { errorCodes } = require('../lib/error');
 const jwt = require('../lib/jwt');
 
 const router = express.Router();
+const sequelize = models.sequelize;
 const FileModel = models.File;
 const fileConfig = nconf.get('file');
 const upload = multer({ dest: fileConfig.location });
+const orderbyTable = {
+  originalname: 'lower("originalname")',
+  updatedAt: '"updatedAt"'
+};
 
 router.use(jwt.authenticate);
 
@@ -54,13 +59,12 @@ router.post('/', upload.any(), (req, res) => {
 
 router.get('/', (req, res) => {
   const userId = req.user.id;
-  const folder = req.query.folder;
-  const where = {
-    userId,
-    folder: folder || '/'
-  };
+  const folder = req.query.folder || '/';
+  const orderby = orderbyTable[req.query.sort] || 'lower("originalname")';
+  const desc = req.query.desc === 'true' ? 'DESC' : 'ASC';
+  const query = `SELECT * FROM files WHERE "userId"=${userId} AND folder='${folder}' ORDER BY ${orderby} ${desc};`;
 
-  FileModel.findAll({ where })
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT })
     .then((returnFiles) => {
       res.status(HTTPStatus.OK).json({ data: returnFiles });
     })
@@ -89,7 +93,7 @@ router.get('/:filename', (req, res) => {
             headers: { 'Content-Type': file.mimetype }
           });
       }
-      res.status(HTTPStatus.OK)
+      return res.status(HTTPStatus.OK)
         .download(path.resolve(fileConfig.location, file.filename), file.originalname);
     })
     .catch((error) => {
