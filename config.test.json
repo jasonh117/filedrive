@@ -18,10 +18,10 @@
     "expiresIn": 7776000
   },
   "file": {
-    "location": "./files/"
+    "location": "./files/test"
   },
   "JWT_SECRET": "bu&C{[W.ruJNG&*'RX'iH8@oFPa9=wnlW{$O&nRWi\"}~%Z*xQ:q0Kq8D2|GV\"zGm",
-  "PGDATABASE": "circle_test",
-  "PGUSER": "ubuntu",
-  "PGPASSWORD": ""
+  "PGDATABASE": "file_hosting_test",
+  "PGUSER": "file_hosting",
+  "PGPASSWORD": null
 }

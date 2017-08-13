@@ -18,6 +18,6 @@
     "expiresIn": 7776000
   },
   "file": {
-    "location": "./files/"
+    "location": "./files/production"
   }
 }

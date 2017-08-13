@@ -7,10 +7,8 @@ const bodyParser = require('body-parser');
 const nconf = require('nconf');
 const cors = require('cors');
 
-const env = (process.env.NODE_ENV !== undefined) ? process.env.NODE_ENV.trim() : 'development';
-nconf.argv().env().file({ file: `${__dirname}/config.${env}.json` });
-
 const app = express();
+nconf.argv().env().file({ file: `${__dirname}/config.${app.get('env')}.json` });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
