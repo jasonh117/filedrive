@@ -3,21 +3,32 @@ const HTTPStatus = require('http-status');
 const models = require('../models');
 const { errorCodes } = require('../lib/error');
 const jwt = require('../lib/jwt');
+const validate = require('../lib/validate');
 
 const router = express.Router();
 const UserModel = models.User;
 
-router.post('/', async (req, res) => {
-  if (!req.body.email || !req.body.email.trim()) {
+const checkBody = (req, res, next) => {
+  if (!req.body.email) {
     res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.MISSING_EMAIL });
     return;
   }
-
-  if (!req.body.password || !req.body.password.trim()) {
+  if (!validate.isEmail(req.body.email)) {
+    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.INVALID_EMAIL });
+    return;
+  }
+  if (!req.body.password) {
     res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.MISSING_PASSWORD });
     return;
   }
+  if (!validate.isString(req.body.password)) {
+    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.INVALID_PASSWORD });
+    return;
+  }
+  next();
+};
 
+router.post('/', checkBody, async (req, res) => {
   try {
     const user = await UserModel.create(req.body);
     const userObj = user.toJSON();
@@ -32,18 +43,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
-  if (!req.body.email || !req.body.email.trim()) {
-    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.MISSING_EMAIL });
-    return;
-  }
-
-  if (!req.body.password || !req.body.password.trim()) {
-    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.MISSING_PASSWORD });
-    return;
-  }
-
-  const email = req.body.email;
+router.post('/login', checkBody, async (req, res) => {
+  const email = validate.normalizeEmail(req.body.email);
   const password = req.body.password;
 
   try {
@@ -67,6 +68,17 @@ router.post('/login', async (req, res) => {
 });
 
 router.patch('/', jwt.authenticate, async (req, res) => {
+  const email = req.body.email;
+  if (email && !validate.isEmail(email)) {
+    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.INVALID_EMAIL });
+    return;
+  }
+  const password = req.body.password;
+  if (password && !validate.isString(password)) {
+    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.INVALID_PASSWORD });
+    return;
+  }
+
   const options = {
     where: { id: req.user.id },
     returning: true

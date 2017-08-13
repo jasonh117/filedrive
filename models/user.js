@@ -1,10 +1,14 @@
 const tableName = 'users';
+const validator = require('validator');
 const passwordUtils = require('../lib/password');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(tableName, {
     email: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      set(val) {
+        this.setDataValue('email', validator.normalizeEmail(val));
+      }
     },
     password: {
       type: DataTypes.STRING(72),
