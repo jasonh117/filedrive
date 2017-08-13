@@ -2,11 +2,14 @@ const Sequelize = require('sequelize');
 const nconf = require('nconf');
 
 const postgresConfig = nconf.get('postgres');
+const postgresDatabase = nconf.get('PGDATABASE');
+const postgresUser = nconf.get('PGUSER');
+const postgresPassword = nconf.get('PGPASSWORD');
 
 const sequelize = new Sequelize(
-  postgresConfig.database,
-  postgresConfig.username,
-  postgresConfig.password,
+  postgresDatabase,
+  postgresUser,
+  postgresPassword,
   postgresConfig.options
 );
 

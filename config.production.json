@@ -19,9 +19,5 @@
   },
   "file": {
     "location": "./files/"
-  },
-  "JWT_SECRET": "@<6$to~F9&MSU\"A+n;RSPP'o_a6d1.z603Q#Gvw1h~p:TaBhX,<w$@k6Cx\"I*O7G",
-  "PGDATABASE": "file_hosting_dev",
-  "PGUSER": "file_hosting_dev",
-  "PGPASSWORD": "file_hosting_dev"
+  }
 }

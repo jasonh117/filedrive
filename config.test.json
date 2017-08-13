@@ -20,8 +20,8 @@
   "file": {
     "location": "./files/"
   },
-  "JWT_SECRET": "@<6$to~F9&MSU\"A+n;RSPP'o_a6d1.z603Q#Gvw1h~p:TaBhX,<w$@k6Cx\"I*O7G",
-  "PGDATABASE": "file_hosting_dev",
-  "PGUSER": "file_hosting_dev",
-  "PGPASSWORD": "file_hosting_dev"
+  "JWT_SECRET": "bu&C{[W.ruJNG&*'RX'iH8@oFPa9=wnlW{$O&nRWi\"}~%Z*xQ:q0Kq8D2|GV\"zGm",
+  "PGDATABASE": "circle_test",
+  "PGUSER": "ubuntu",
+  "PGPASSWORD": ""
 }
