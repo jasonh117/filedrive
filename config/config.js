@@ -1,15 +1,15 @@
 module.exports = {
   development: {
-    username: process.env.PGUSER || 'file_hosting',
+    username: process.env.PGUSER || 'filedrive',
     password: process.env.PGPASSWORD || null,
-    database: process.env.PGDATABASE || 'file_hosting_dev',
+    database: process.env.PGDATABASE || 'filedrive_dev',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
   test: {
-    username: process.env.PGUSER || 'file_hosting',
+    username: process.env.PGUSER || 'filedrive',
     password: process.env.PGPASSWORD || null,
-    database: process.env.PGDATABASE || 'file_hosting_test',
+    database: process.env.PGDATABASE || 'filedrive_test',
     host: '127.0.0.1',
     dialect: 'postgres'
   },

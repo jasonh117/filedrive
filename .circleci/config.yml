@@ -4,6 +4,10 @@ jobs:
     docker:
       - image: circleci/node:latest
       - image: circleci/postgres:latest
+        environment:
+          POSTGRES_USER: filedrive
+          POSTGRES_DB: filedrive_test
+          PSOTGRES_PASSWORD: ""
 
     working_directory: ~/filedrive
 
