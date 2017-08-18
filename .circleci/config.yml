@@ -29,3 +29,10 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: yarn test
+
+      - deploy: 
+          name: Deploy Master
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ssh -o StrictHostKeyChecking=no jason@leluffy.com "filedrive/pm2/deploy.sh"
+            fi
